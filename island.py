@@ -46,3 +46,15 @@ class Island:
             RandomGen.random() * 500,
             RandomGen.randint(0, 300),
         )
+
+    def __lt__(self, island):
+        return self.money < island.money 
+    
+    def __gt__(self, island):
+        return self.money  > island.money 
+    
+    def __le__(self, island):
+        return self.money <= island.money 
+
+    def __ge__(self, island):
+        return self.money  >= island.money
