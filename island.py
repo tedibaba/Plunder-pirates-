@@ -38,6 +38,7 @@ class Island:
     name: str
     money: float
     marines: int
+    attackers: int = 0
 
     @classmethod
     def random(cls):
@@ -48,13 +49,13 @@ class Island:
         )
 
     def __lt__(self, island):
-        return self.money < island.money 
+        return min((self.attackers / self.marines) * self.money, self.money) < min((island.attackers / island.marines) * island.money, island.money)
     
     def __gt__(self, island):
-        return self.money  > island.money 
+        return min((self.attackers / self.marines) * self.money, self.money) > min((island.attackers / island.marines) * island.money, island.money)
     
     def __le__(self, island):
-        return self.money <= island.money 
+        return min((self.attackers / self.marines) * self.money, self.money) <= min((island.attackers / island.marines) * island.money, island.money)
 
     def __ge__(self, island):
-        return self.money  >= island.money
+        return min((self.attackers / self.marines) * self.money, self.money) >= min((island.attackers / island.marines) * island.money, island.money)

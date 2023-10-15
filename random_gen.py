@@ -69,3 +69,5 @@ class RandomGen():
         tmp = [collection[p[1]] for p in positions]
         for x in range(len(collection)):
             collection[x] = tmp[x]
+
+

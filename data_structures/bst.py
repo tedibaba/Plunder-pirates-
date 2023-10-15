@@ -284,7 +284,8 @@ class BinarySearchTree(Generic[K, I]):
             real_prefix = prefix[:-2] + final
             print('{0}'.format(real_prefix), file=to)
 
-class ReverseIterator():
+
+class ReverseInOrderIterator():
     def __init__(self, root: TreeNode[K, I]) -> None:
         """ Iterator initialiser. """
 
@@ -298,7 +299,7 @@ class ReverseIterator():
 
     def __next__(self) -> TreeNode[K, I]:
         """ The main body of the iterator.
-            Returns keys of the BST one by one respecting the in-order.
+            Returns keys of the BST one by one respecting the reverse of in-order (i.e. right -> node -> left).
         """
 
         while self.current:

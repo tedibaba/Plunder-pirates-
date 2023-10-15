@@ -62,6 +62,8 @@ class Mode2Tests(TestCase):
             # Score
             score = 2 * (100 - sent_crew) + received
             self.assertEqual(score, expected)
+        
+
 
     @number("2.2")
     @visibility(visibility.VISIBILITY_SHOW)
