@@ -11,6 +11,11 @@ class Mode2Navigator:
     optimal strategists, a ratio of less than 2 means its more worth to not raid and earn the 2 points per crew mate they
     have alive. The islands array keeps track of all the islands that have previously been added.
 
+    In regard to adding islands to the heap, we add them based how much a pirate with a certain crew size could hope to obtain
+    by raiding that island. This is distinct from adding the money on the island or using the ratio between the money and marines
+    as was done in mode1 because if the crew size is smaller than the number of marines, then the money we can obtain is the ratio
+    of crew to marines multiplied by the island's money.   
+
     In simulate_day, the first pirate will choose to raid the island with the greatest ratio. We find this island by using 
     the get_max method on the heap. The other pirates will also raid the island with the greatest ratio until there are no
     more islands left in the heap. For these pirates, they will choose to not do anything as this is the best way to maximise 
@@ -20,6 +25,7 @@ class Mode2Navigator:
 
     def __init__(self, n_pirates: int) -> None:
         """
+        :param n_pirates: number of pirates 
         
         :complexity:
             :best case: O(1)
@@ -27,23 +33,25 @@ class Mode2Navigator:
         """
         self.n_pirates = n_pirates
         self.islands = []
-        self.island_heap = []
+        self.island_heap = [] #An empty list is initialsed to handle the case when simulate day is called without adding any islands
 
     def add_islands(self, islands: list[Island]):
         """
         The function adds islands to a list if their money to marines ratio is greater than 2.
+
+        By extending, we do not need to rerun through the islands which have already been added 
+        to the list.
         
         :param islands: The `islands` parameter is a list of `Island` objects
 
         :complexity:
             :best case: O(I)
             :worst case: O(I)
+            where I is the number of islands to be added
         """
 
         self.islands.extend(islands)
-        # # print(self.islands)
-        # self.island_heap = MaxHeap.heapify(self.islands) 
-        
+
 
     def simulate_day(self, crew: int) -> list[tuple[Island|None, int]]:
         """
@@ -62,6 +70,7 @@ class Mode2Navigator:
         :complexity:
             :best case: O(n + clog(n))
             :worst case: O(n + clog(n))
+            where n is the number of islands that can be raided, c is the number of pirates
         """
 
         self.islands = [island for island in self.islands if island.marines > 0 and island.money/island.marines > 2] #filter out the unusable islands
@@ -74,17 +83,16 @@ class Mode2Navigator:
             if len(self.island_heap) > 0 and crew > 0:
                 island = self.island_heap.get_max()
                 plunder_amount, fight_crew = int((min((crew * island.money)/ island.marines, island.money)) + 0.5), min(crew, island.marines)
-                print(island)
                 res.append((island, fight_crew))
                 island.money -= plunder_amount 
                 island.marines -= fight_crew
                 if island.marines > 0 and island.money / island.marines > 2:
-                   
                     self.island_heap.add(island)
             else:
                 res.append((None, 0))
         return res
     
+
 
 
 if __name__ == "__main__":

@@ -5,7 +5,8 @@ from data_structures.bst import BinarySearchTree, ReverseInOrderIterator
 class Mode1Navigator:
     """
     We choose to store the islands in a binary tree over the list data structure which offers the same complexities
-    in most cases due to the worst case requirement on the update island being O(logn) where n is the number of islands. We also store the ratio of 
+    in most cases due to the worst case requirement on the update island being O(logn) where n is the number of islands. If
+    this complexity requirement did not exist, we could have alternatively used an array. We also store the ratio of 
     money to marines as the key for each island in the binary tree. This is because the ratio dictates which islands
     should be prioritized for raids as the ratio shows how much money per marine can be earned. 
 
@@ -77,7 +78,8 @@ class Mode1Navigator:
         
         :param crew_numbers: The `crew_numbers` parameter is a list of integers representing the number
         of crew members 
-        :return: The function `select_islands_from_crew_numbers` returns a list of floats.
+        :return: The function `select_islands_from_crew_numbers` returns a list of floats indicating the amount 
+        of money that a crew of that size could plunder.
 
         :complexity:
             :best case: O(c)
@@ -91,7 +93,7 @@ class Mode1Navigator:
             iterate over the all the islands and over all the crew numbers which gives the O(n) and O(c) respectively. 
             Hence we get O(n + clog(c))
         """
-        if len(crew_numbers) == 0:
+        if len(crew_numbers) == 0: #Edge case: when the crew_numbers array is empty
             return []
 
         crew_numbers = [[crew_numbers[i], i] for i in range(len(crew_numbers))] #This is done to keep track of the original index that the array was passed in
@@ -162,6 +164,7 @@ class Mode1Navigator:
         """
 
         del self.islands[island.money / island.marines]
+        #Update the island's attributes
         island.money = new_money
         island.marines = new_marines
         self.islands[new_money / new_marines] = island
